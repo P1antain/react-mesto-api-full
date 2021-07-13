@@ -1,0 +1,10 @@
+.element__image{
+    width: 282px;
+    height: 282px;
+    border-radius: 10px 10px 0 0;
+    transition: 0.5s linear;
+}
+
+.element__image:hover{
+    opacity: 0.6;
+}
