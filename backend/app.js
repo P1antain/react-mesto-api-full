@@ -1,6 +1,6 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config();
 const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
@@ -17,7 +17,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const page404 = require('./routes/page404');
 
-const { PORT = 80 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 const allowedCors = [
@@ -42,7 +42,8 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', '*');
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
   if (req.method === 'OPTIONS') {
-    res.send(200);
+    res.status(200).send();
+    return;
   }
   next();
 });
