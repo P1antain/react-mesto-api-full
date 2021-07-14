@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
+const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
@@ -18,11 +20,31 @@ const page404 = require('./routes/page404');
 const { PORT = 80 } = process.env;
 const app = express();
 
+const allowedCors = [
+  'https://http://p1antain.students.nomoredomains.work',
+  'https://http://p1antain.students.nomoredomains.work',
+  'localhost:3000',
+];
+
+app.use(cors({
+  origin: allowedCors,
+}));
+
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  if (req.method === 'OPTIONS') {
+    res.send(200);
+  }
+  next();
 });
 
 app.use(cookieParser());
