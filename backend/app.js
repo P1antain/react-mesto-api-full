@@ -22,7 +22,7 @@ const app = express();
 
 const allowedCors = [
   'https://http://p1antain.students.nomoredomains.work',
-  'https://http://p1antain.students.nomoredomains.work',
+  'https://http://api.p1antain.students.nomoredomains.work',
   'localhost:3000',
 ];
 
