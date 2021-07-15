@@ -26,13 +26,15 @@ module.exports.createUser = (req, res, next) => {
         }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
-            throw new ConflictError('Вы не заполнили обязательные поля');
+            next(new BadRequestError('Вы не заполнили обязательные поля'));
+            return;
           }
           if (err.name === 'MongoError' && err.code === 11000) {
-            throw new ConflictError('Такой пользователь уже существует');
+            next(new ConflictError('Такой пользователь уже существует'));
+            return;
           }
+          next(err);
         })
-        .catch(next)
     });
 };
 
