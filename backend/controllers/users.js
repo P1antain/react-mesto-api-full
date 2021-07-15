@@ -19,7 +19,8 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         name, avatar, about, email, password: encryptedPassword,
       })
-        .then(() => res.status(201).send({
+        .then((user) => res.status(201).send({
+          user,
           data: {
             name, about, avatar, email,
           },
@@ -34,7 +35,7 @@ module.exports.createUser = (req, res, next) => {
             return;
           }
           next(err);
-        })
+        });
     });
 };
 
