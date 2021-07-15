@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const helmet = require('helmet');
+const cors = require('cors');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const routerCards = require('./routes/cards');
@@ -10,9 +10,9 @@ const routerUser = require('./routes/users');
 
 const { login, createUser } = require('./controllers/users');
 
+const { validateSignin, validateSignup } = require('./middlewares/celebrate');
 const { auth } = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
-const { validateSignin, validateSignup } = require('./middlewares/celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const page404 = require('./routes/page404');
@@ -57,14 +57,17 @@ app.use(express.json());
 app.use(requestLogger);
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateSignup, createUser);
-app.use('/', routerUser);
-app.use('/', routerCards);
-app.use('/', page404);
-app.use(errorLogger);
 
 app.use(helmet());
 
 app.use(auth);
+
+app.use('/', routerUser);
+
+app.use('/', routerCards);
+
+app.use('/', page404);
+app.use(errorLogger);
 
 app.use(errors());
 
