@@ -20,26 +20,32 @@ const page404 = require('./routes/page404');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const options = {
-  origin: [
-    'https://api.p1antain.students.nomoredomains.club',
-    'https://p1antain.students.nomoredomains.work',
-    'http://localhost:3000/',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+const allowedCors = [
+  'https://http://p1antain.students.nomoredomains.work',
+  'https://http://api.p1antain.students.nomoredomains.club',
+  'localhost:3000',
+];
 
-app.use('*', cors(options));
+app.use(cors({
+  origin: allowedCors,
+}));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  if (req.method === 'OPTIONS') {
+    res.status(200).send();
+    return;
+  }
+  next();
 });
 
 app.use(cookieParser());

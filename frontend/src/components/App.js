@@ -52,7 +52,7 @@ function App() {
                     name: update.name,
                     about: update.about,
                 })
-            closeAllPopups()
+                closeAllPopups()
             })
             .catch((err) =>{
                 console.log(err, true)
@@ -134,8 +134,8 @@ function App() {
             .then(() => {
                 setCards(cards.filter((state) => state._id !== card._id)
                 );
-        closeAllPopups()
-    })
+                closeAllPopups()
+            })
             .catch((err)=>{
                 console.log(err, true)
             })
@@ -205,80 +205,80 @@ function App() {
 
 
     React.useEffect(() => {
-            checkUserToken();
+        checkUserToken();
     }, []);
 
     return (
-  <div className="page">
-    <CurrentUserContext.Provider value={currentUser}>
-        {loggedIn && (
-            <Header
-                link='/sign-in'
-                email={email}
-                headingLink="Выйти"
-                handleLogOut={handleLogOut}
+        <div className="page">
+            <CurrentUserContext.Provider value={currentUser}>
+                {loggedIn && (
+                    <Header
+                        link='/sign-in'
+                        email={email}
+                        headingLink="Выйти"
+                        handleLogOut={handleLogOut}
 
-            />
-        )}
-        <Switch>
-            <Route path='/sign-up'>
-                <Header headingLink="Войти" link="/sign-in" />
-                <Register handleRegister={handleRegister}/>
-            </Route>
+                    />
+                )}
+                <Switch>
+                    <Route path='/sign-up'>
+                        <Header headingLink="Войти" link="/sign-in" />
+                        <Register handleRegister={handleRegister}/>
+                    </Route>
 
-            <Route path='/sign-in'>
-                <Header headingLink="Регистрация" link="/sign-up" />
-                <Login handleLogin={handleLogin}/>
-            </Route>
+                    <Route path='/sign-in'>
+                        <Header headingLink="Регистрация" link="/sign-up" />
+                        <Login handleLogin={handleLogin}/>
+                    </Route>
 
-        <ProtectedRoute
-            path='/'
-            exact
-            component={Main}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            cards={cards}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleDeleteClick}
-            loggedIn={loggedIn}
-        />
-        </Switch>
-        <Footer/>
-        <EditProfilePopup isOpen={isEditProfilePopupOpen}
-                          onClose={closeAllPopups}
-                          onUpdateUser={handleUpdateUser}
-                          altClose={closeOverlay}
-        />
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
-                         onClose={closeAllPopups}
-                         onUpdateAvatar={handleUpdateAvatar}
-                         altClose={closeOverlay}
-        />
-        <AddPlacePopup isOpen={isAddPlacePopupOpen}
-                       onClose={closeAllPopups}
-                       onAddPlace={handleAddCard}
-                       altClose={closeOverlay}
-        />
+                    <ProtectedRoute
+                        path='/'
+                        exact
+                        component={Main}
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        cards={cards}
+                        onCardClick={handleCardClick}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleDeleteClick}
+                        loggedIn={loggedIn}
+                    />
+                </Switch>
+                <Footer/>
+                <EditProfilePopup isOpen={isEditProfilePopupOpen}
+                                  onClose={closeAllPopups}
+                                  onUpdateUser={handleUpdateUser}
+                                  altClose={closeOverlay}
+                />
+                <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
+                                 onClose={closeAllPopups}
+                                 onUpdateAvatar={handleUpdateAvatar}
+                                 altClose={closeOverlay}
+                />
+                <AddPlacePopup isOpen={isAddPlacePopupOpen}
+                               onClose={closeAllPopups}
+                               onAddPlace={handleAddCard}
+                               altClose={closeOverlay}
+                />
 
-        <DeleteCardPopup isOpen={isDeletePopup}
-                         onClose={closeAllPopups}
-                         card={cardToDelete}
-                         onSubmitDelete={handleCardDelete}
-        />
+                <DeleteCardPopup isOpen={isDeletePopup}
+                                 onClose={closeAllPopups}
+                                 card={cardToDelete}
+                                 onSubmitDelete={handleCardDelete}
+                />
 
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} altClose={closeOverlay}/>
+                <ImagePopup card={selectedCard} onClose={closeAllPopups} altClose={closeOverlay}/>
 
-        <InfoToolTip isOpen={isInfoTooltipPopupOpen}
-                 onClose={closeAllPopups}
-                 isSuccess={isInfoTooltipSuccess}
-                 isToolTipForm={true}
-        />
+                <InfoToolTip isOpen={isInfoTooltipPopupOpen}
+                             onClose={closeAllPopups}
+                             isSuccess={isInfoTooltipSuccess}
+                             isToolTipForm={true}
+                />
 
-    </CurrentUserContext.Provider>
-  </div>
-  );
+            </CurrentUserContext.Provider>
+        </div>
+    );
 }
 
 export default App;
