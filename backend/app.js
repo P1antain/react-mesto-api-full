@@ -19,29 +19,16 @@ const page404 = require('./routes/page404');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-//
-// const allowedCors = [
-//   'https://p1antain.students.nomoredomains.work',
-//   'https://api.p1antain.students.nomoredomains.club',
-//   'localhost:3000',
-// ];
 
-const whitelist = [
-  'https://p1antain.students.nomoredomains.work',
+const allowedCors = [
   'https://api.p1antain.students.nomoredomains.club',
+  'https://p1antain.students.nomoredomains.work',
   'localhost:3000',
 ];
-const corsOptionsDelegate = (req, callback) => {
-  let corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
 
-app.use(cors(corsOptionsDelegate));
+app.use(cors({
+  origin: allowedCors,
+}));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -49,6 +36,17 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+//   if (req.method === 'OPTIONS') {
+//     res.status(200).send();
+//     return;
+//   }
+//   next();
+// });
 
 app.use(cookieParser());
 app.use(helmet());
