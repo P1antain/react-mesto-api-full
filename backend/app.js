@@ -20,16 +20,15 @@ const page404 = require('./routes/page404');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// const allowedCors = [
-//   'https://http://p1antain.students.nomoredomains.work',
-//   'https://http://api.p1antain.students.nomoredomains.club',
-//   'localhost:3000',
-// ];
-//
-// app.use(cors({
-//   origin: allowedCors,
-// }));
-app.use(cors());
+const allowedCors = [
+  'https://http://p1antain.students.nomoredomains.work',
+  'https://http://api.p1antain.students.nomoredomains.club',
+  'localhost:3000',
+];
+
+app.use(cors({
+  origin: allowedCors,
+}));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -38,20 +37,17 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Headers', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-//   if (req.method === 'OPTIONS') {
-//     res.status(200).send();
-//     return;
-//   }
-//   next();
-// });
 app.use((req, res, next) => {
-  res.header('Access-Control-Max-Age', '86400');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  if (req.method === 'OPTIONS') {
+    res.status(200).send();
+    return;
+  }
   next();
 });
+
 app.use(cookieParser());
 app.use(helmet());
 
