@@ -19,16 +19,29 @@ const page404 = require('./routes/page404');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+//
+// const allowedCors = [
+//   'https://p1antain.students.nomoredomains.work',
+//   'https://api.p1antain.students.nomoredomains.club',
+//   'localhost:3000',
+// ];
 
-const allowedCors = [
+const whitelist = [
   'https://p1antain.students.nomoredomains.work',
   'https://api.p1antain.students.nomoredomains.club',
   'localhost:3000',
 ];
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
+};
 
-app.use(cors({
-  origin: allowedCors,
-}));
+app.use(cors(corsOptionsDelegate));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
