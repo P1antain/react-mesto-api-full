@@ -19,8 +19,7 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         name, avatar, about, email, password: encryptedPassword,
       })
-        .then((user) => res.status(201).send({
-          user,
+        .then(() => res.status(201).send({
           data: {
             name, about, avatar, email,
           },
