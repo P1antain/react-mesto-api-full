@@ -121,5 +121,5 @@ class Api {
     }
 }
 
-const api = new Api(apiSettings);
-export default api;
+const api = new Api(apiSettings)
+export default api

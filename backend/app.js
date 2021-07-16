@@ -28,6 +28,7 @@ const allowedCors = [
 
 app.use(cors({
   origin: allowedCors,
+  credential: true,
 }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -42,7 +43,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 //   res.header('Access-Control-Allow-Headers', '*');
 //   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
 //   if (req.method === 'OPTIONS') {
-//     res.status(200).send();
+//     res.status(200).json({});
 //     return;
 //   }
 //   next();
