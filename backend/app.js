@@ -42,7 +42,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'https://p1antain.students.nomoredomains.work');
   res.header('Access-Control-Allow-Headers', '*');
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
   if (req.method === 'OPTIONS') {
