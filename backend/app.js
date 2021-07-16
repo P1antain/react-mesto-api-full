@@ -21,12 +21,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const allowedCors = [
-  'https://p1antain.students.nomoredomains.work',
-  'https://api.p1antain.students.nomoredomains.club',
-  'http://p1antain.students.nomoredomains.work',
-  'http://api.p1antain.students.nomoredomains.club',
-  'p1antain.students.nomoredomains.work',
-  'api.p1antain.students.nomoredomains.club',
+  'http://p1antain.students.nomoredomains.work/',
   'localhost:3000',
 ];
 
@@ -39,17 +34,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
-});
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://p1antain.students.nomoredomains.work');
-  res.header('Access-Control-Allow-Headers', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  if (req.method === 'OPTIONS') {
-    res.status(200).send();
-    return;
-  }
-  next();
 });
 
 app.use(cookieParser());
