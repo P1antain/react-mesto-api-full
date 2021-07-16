@@ -17,7 +17,7 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                authorization: this._token
             }
         })
             .then(this._checkData);
@@ -27,7 +27,7 @@ class Api {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                authorization: this._token
             }
         })
             .then(this._checkData);

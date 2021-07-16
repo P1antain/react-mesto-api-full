@@ -21,8 +21,8 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const allowedCors = [
-  'https://p1antain.students.nomoredomains.work',
-  'https://api.p1antain.students.nomoredomains.club',
+  'https://http://p1antain.students.nomoredomains.work',
+  'https://http://api.p1antain.students.nomoredomains.club',
   'localhost:3000',
 ];
 
