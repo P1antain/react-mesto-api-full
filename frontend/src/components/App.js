@@ -40,7 +40,7 @@ function App() {
                 setCards(cards);
             })
             .catch((err) => {
-                console.log(err, true);
+                console.log('ошибка тут');
             });
     }, []);
 

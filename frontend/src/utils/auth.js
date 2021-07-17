@@ -48,7 +48,7 @@ class Auth {
 }
 
 const auth = new Auth({
-    url: "https://auth.nomoreparties.co"
+    url: "https://api.p1antain.students.nomoredomains.club"
 
 });
 
