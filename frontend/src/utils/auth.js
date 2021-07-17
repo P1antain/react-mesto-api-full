@@ -1,6 +1,6 @@
 class Auth {
-    constructor (options) {
-        this._url = options.url;
+    constructor({ url }) {
+        this._url = url;
     }
 
     _checkData (res) {
@@ -10,40 +10,44 @@ class Auth {
         return res.json();
     }
 
-    register(data) {
-        return fetch(`${this._url}/signup`, {
-            method: "POST",
-            credentials: 'include',
+    register(email, password){
+        return fetch(`${BASE_URL}/signup`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                email: data.email,
-                password:data.password,
-            }),
-        }).then(this._checkData);
+            body: JSON.stringify({email, password})
+        })
+            .then(this._checkData)
+
     }
 
-    authorize(data) {
-        return fetch(`${this._url}/signin`, {
-            method: "POST",
-            credentials: 'include',
+    authorize(email, password){
+        return fetch(`${BASE_URL}/signin`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
-        }).then(this._checkData);
-    }
+            body: JSON.stringify({email, password})
+        })
+            .then(this._checkData)
+    };
 
-    getContent() {
-        return fetch(`${this._url}/users/me`, {
+    getContent(token){
+        return fetch(`${BASE_URL}/users/me`, {
             method: 'GET',
-            credentials: 'include',
-        }).then(this._checkData);
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+            .then(this._checkData)
     }
 }
 
+export const BASE_URL = 'https://api.sviridova.students.nomoredomains.club';
 const auth = new Auth({
-    url: "https://api.p1antain.students.nomoredomains.club"
+    url: "https://api.sviridova.students.nomoredomains.club"
 });
 
 export default auth;

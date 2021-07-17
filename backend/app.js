@@ -1,27 +1,21 @@
+const express = require('express');
+
 require('dotenv').config();
 
-const express = require('express');
-const mongoose = require('mongoose');
-const helmet = require('helmet');
-const { errors } = require('celebrate');
-const cookieParser = require('cookie-parser');
-const cors = require('./middlewares/cors');
-const routerCards = require('./routes/cards');
-const routerUser = require('./routes/users');
-
-const { login, createUser } = require('./controllers/users');
-
-const { validateSignin, validateSignup } = require('./middlewares/celebrate');
-const { auth } = require('./middlewares/auth');
-const errorHandler = require('./middlewares/errorHandler');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-
-const page404 = require('./routes/page404');
-
 const { PORT = 3000 } = process.env;
-const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const users = require('./routes/users');
+const cards = require('./routes/cards');
+const { createUser, login } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/not-found-err');
 
-app.use(cors);
+const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -30,29 +24,59 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+const options = {
+  origin: [
+    'https://p1antain.students.nomoredomains.work',
+    'https://api.p1antain.students.nomoredomains.club',
+    'https://84.252.142.107',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
+
+app.use('*', cors(options));
+app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(helmet());
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 app.use(requestLogger);
-app.post('/signin', validateSignin, login);
-app.post('/signup', validateSignup, createUser);
 
-app.use(helmet());
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+}), login);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string(),
+  }),
+}), createUser);
 app.use(auth);
+app.use('/', users);
+app.use('/', cards);
+app.use('/', () => { throw new NotFoundError('Данные не найдены'); });
 
-app.use('/', routerUser);
-
-app.use('/', routerCards);
-
-app.use('/', page404);
 app.use(errorLogger);
+app.use(errors()); // обработчик ошибок celebrate
 
-app.use(errors());
-
-app.use(errorHandler);
-
-app.listen(PORT, () => {});
+// централизованный обработчик ошибок
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+});
+app.listen(PORT);

@@ -1,5 +1,6 @@
 const apiSettings = {
-    url: "https://api.p1antain.students.nomoredomains.club",
+    url: 'https://api.p1antain.students.nomoredomains.club',
+    token: localStorage.getItem('token')
 };
 
 export { apiSettings };

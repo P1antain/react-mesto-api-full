@@ -35,9 +35,9 @@ function App() {
 
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([userData, cards]) => {
+            .then(([userData, data]) => {
                 setCurrentUser(userData);
-                setCards(cards);
+                setCards(data);
             })
             .catch((err) => {
                 console.log('ошибка тут');
@@ -149,21 +149,37 @@ function App() {
         document.addEventListener('keyup', handleEscClose);
     }, [])
 
-    function handleLogin(email, password) {
-        auth
-            .authorize(email, password)
-            .then((res) => {
+    // function handleLogin({email, password}) {
+    //     auth
+    //         .authorize(email, password)
+    //         .then((data) => {
+    //             const {token} = data
+    //             setLoggedIn(true);
+    //             localStorage.setItem("token", token);
+    //             // checkUserToken();
+    //             history.push("/");
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+
+
+    function handleLogin({email, password}) {
+        auth.authorize(email, password)
+            .then(data => {
+                const {token} = data;
+                localStorage.setItem('token', token);
                 setLoggedIn(true);
-                localStorage.setItem("jwt", res.token);
-                checkUserToken();
-                history.push("/");
+                setEmail(email);
             })
             .catch((err) => {
                 console.log(err);
             });
     }
 
-    function handleRegister(email, password) {
+
+    function handleRegister({email, password}) {
         auth
             .register(email, password)
             .then(() => {
@@ -180,22 +196,35 @@ function App() {
     }
 
     function handleLogOut() {
-        setLoggedIn(false);
-        localStorage.removeItem("jwt");
         setEmail("");
+        setLoggedIn(false);
+        localStorage.removeItem("token");
     }
 
+    // function checkUserToken() {
+    //     const token = localStorage.getItem("token");
+    //     if (token) {
+    //         auth
+    //             .getContent(token)
+    //             .then((res) => {
+    //                 if (res) {
+    //                     setLoggedIn(true);
+    //                     setEmail(res.email);
+    //                     history.push("/");
+    //                 }
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             });
+    //     }
+    // }
     function checkUserToken() {
-        const jwt = localStorage.getItem("jwt");
-        if (jwt) {
-            auth
-                .getContent(jwt)
-                .then((res) => {
-                    if (res) {
-                        setLoggedIn(true);
-                        setEmail(res.data.email);
-                        history.push("/");
-                    }
+        const token = localStorage.getItem('token')
+        if (token) {
+            auth.getContent(token)
+                .then(res => {
+                    setEmail(res.email)
+                    setLoggedIn(true)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -206,6 +235,7 @@ function App() {
 
     React.useEffect(() => {
         checkUserToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
