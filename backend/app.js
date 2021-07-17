@@ -3,9 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const cors = require('cors');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('./middlewares/cors');
 const routerCards = require('./routes/cards');
 const routerUser = require('./routes/users');
 
@@ -21,16 +21,7 @@ const page404 = require('./routes/page404');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const allowedCors = [
-  'https://p1antain.students.nomoredomains.work',
-  'https://api.p1antain.students.nomoredomains.club',
-  'localhost:3000',
-];
-
-app.use(cors({
-  origin: allowedCors,
-  credentials: true,
-}));
+app.use(cors);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
