@@ -21,14 +21,14 @@ const page404 = require('./routes/page404');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// const allowedCors = [
-//   'https://http://p1antain.students.nomoredomains.work',
-//   'https://http://api.p1antain.students.nomoredomains.club',
-//   'localhost:3000',
-// ];
+const allowedCors = [
+  'https://p1antain.students.nomoredomains.work',
+  'https://api.p1antain.students.nomoredomains.club',
+  'localhost:3000',
+];
 
 app.use(cors({
-  origin: 'https://p1antain.students.nomoredomains.work',
+  origin: allowedCors,
   credentials: true,
 }));
 
@@ -38,7 +38,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
 
 app.use(cookieParser());
 app.use(helmet());
