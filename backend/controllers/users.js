@@ -15,15 +15,16 @@ module.exports.createUser = (req, res, next) => {
   } = req.body;
 
   bcrypt.hash(password, 10)
-    .then((encryptedPassword) => {
+    .then((hash) => {
       User.create({
-        name, avatar, about, email, password: encryptedPassword,
+        name, avatar, about, email, password: hash,
       })
         .then((user) => res.status(201).send({
-          user,
-          data: {
-            name, about, avatar, email,
-          },
+          _id: user._id,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
         }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
