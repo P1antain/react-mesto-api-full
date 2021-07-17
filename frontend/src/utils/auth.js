@@ -1,6 +1,6 @@
 class Auth {
-    constructor({ url }) {
-        this._url = url;
+    constructor (options) {
+        this._url = options.url;
     }
 
     _checkData (res) {
@@ -10,46 +10,40 @@ class Auth {
         return res.json();
     }
 
-    register(email, password) {
+    register(data) {
         return fetch(`${this._url}/signup`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: email,
-                password: password,
+                email: data.email,
+                password:data.password,
             }),
         }).then(this._checkData);
     }
 
-    authorize(email, password) {
+    authorize(data) {
         return fetch(`${this._url}/signin`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
         }).then(this._checkData);
     }
 
-    getContent(token) {
+    getContent() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
+            credentials: 'include',
         }).then(this._checkData);
     }
 }
 
 const auth = new Auth({
     url: "https://api.p1antain.students.nomoredomains.club"
-
 });
 
 export default auth;

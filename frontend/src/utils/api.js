@@ -1,9 +1,8 @@
 import {apiSettings} from "./constants.js";
 
 class Api {
-    constructor ({url, token}) {
-        this._url = url;
-        this._token = token;
+    constructor (options) {
+        this._url = options.url;
     }
 
     _checkData (res) {
@@ -16,9 +15,7 @@ class Api {
     getUserInfo() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: {
-                authorization: this._token
-            }
+            credentials: 'include',
         })
             .then(this._checkData);
     }
@@ -26,9 +23,7 @@ class Api {
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: {
-                authorization: this._token
-            }
+            credentials: 'include',
         })
             .then(this._checkData);
     }
@@ -41,9 +36,9 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: {
-                authorization: this._token,
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({
                 name: user.name,
                 about: user.about
@@ -56,9 +51,9 @@ class Api {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: {
-                authorization: this._token,
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({
                 name: card.name,
                 link: card.link
@@ -70,9 +65,7 @@ class Api {
     deleteCard (card) {
         return fetch(`${this._url}/cards/${card._id}`, {
             method: 'DELETE',
-            headers: {
-                authorization: this._token
-            }
+            credentials: 'include',
         })
             .then(this._checkData);
 
@@ -81,9 +74,7 @@ class Api {
     setLike(card) {
         return fetch(`${this._url}/cards/likes/${card._id}`, {
             method: 'PUT',
-            headers: {
-                authorization: this._token
-            }
+            credentials: 'include',
         })
             .then(this._checkData);
     }
@@ -91,9 +82,7 @@ class Api {
     deleteLike(card) {
         return fetch(`${this._url}/cards/likes/${card._id}`, {
             method: 'DELETE',
-            headers: {
-                authorization: this._token
-            }
+            credentials: 'include',
         })
             .then(this._checkData);
     }
@@ -102,9 +91,9 @@ class Api {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
-                authorization: this._token,
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({
                 avatar: link
             })
@@ -114,9 +103,7 @@ class Api {
     changeLikeCardStatus(card, likeCardStatus) {
         return fetch(`${this._url}/cards/likes/${card._id}`, {
             method: (likeCardStatus ? "PUT": "DELETE"),
-            headers: {
-                authorization: this._token,
-            },
+            credentials: 'include',
         }).then(this._checkData);
     }
 }
