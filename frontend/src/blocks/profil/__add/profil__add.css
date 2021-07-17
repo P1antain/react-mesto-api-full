@@ -1,0 +1,28 @@
+.profil__add{
+    background: url(../../../image/border_add1.png) center no-repeat;
+    width: 150px;
+    height: 50px;
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-left: auto;
+    transition: 0.5s linear;
+}
+
+.profil__add:hover{
+    opacity: 0.6;
+}
+
+@media screen and (min-width:540px) and (max-width: 810px){
+    .profil__add{
+        margin: 36px 70px 0;
+    }
+}
+
+@media screen and (min-width:320px) and (max-width: 540px){
+    .profil__add{
+        width: 282px;
+        margin: 0 auto;
+    }
+}

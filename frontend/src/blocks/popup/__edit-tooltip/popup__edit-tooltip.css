@@ -1,0 +1,9 @@
+.popup__edit-tooltip{
+    text-align: center;
+    margin: 32px 36px 60px;
+}
+@media screen and (max-width: 600px){
+.popup__edit-tooltip{
+    margin: 40px 18px 50px;
+}
+}

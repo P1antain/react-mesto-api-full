@@ -1,0 +1,15 @@
+.profil__replace {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8) url("../../../image/edit.svg") no-repeat center;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    opacity: 0;
+    transition: .7s opacity linear;
+}
+.profil__replace:hover{
+    opacity: 1;
+}
