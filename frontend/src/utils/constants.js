@@ -1,5 +1,5 @@
 const apiSettings = {
-    url: "https://api.p1antain.students.nomoredomains.club",
+    url: "http://p1antain.students.nomoredomains.work",
     token: "Bearer ${jwt}",
 };
 
