@@ -7,12 +7,12 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
+const cors = require('cors');
 const userRoutes = require('./routes/user');
 const cardRoutes = require('./routes/card');
 const { login, createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
 const centralisedErrorsHandler = require('./middlewares/centralisederrorshandler');
 const NotFoundError = require('./errors/not-found-error');
 
@@ -46,7 +46,11 @@ app.use(limitter({
   },
 }));
 
-app.use(cors);
+app.use(cors({
+  origin: true,
+  exposedHeaders: '*',
+  credentials: true,
+}));
 
 app.get('/crash-test', () => {
   setTimeout(() => {

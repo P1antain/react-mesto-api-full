@@ -1,18 +1,17 @@
-.element__delete{
-    display: none;
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    width: 18px;
-    height: 19px;
-    background: url(../../../image/button__delite.svg) center no-repeat;
-    border: none;
-    cursor: pointer;
-    box-sizing: border-box;
-    transition: 0.5s linear;
-
+.element__delete {
+  display: none;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: 18px;
+  height: 19px;
+  background: url(../../../image/button__delite.svg) center no-repeat;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: 0.5s linear;
 }
 
-.element__delete:hover{
-    opacity: 0.6;
+.element__delete:hover {
+  opacity: 0.6;
 }

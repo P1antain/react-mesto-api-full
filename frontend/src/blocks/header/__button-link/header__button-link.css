@@ -1,12 +1,12 @@
-.header__button-link{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 22px;
-    color: #A9A9A9;
-    text-decoration: none;
-    transition: 1s all;
+.header__button-link {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #a9a9a9;
+  text-decoration: none;
+  transition: 1s all;
 }
 .header__button-link:hover {
-    opacity: 0.6;
+  opacity: 0.6;
 }
